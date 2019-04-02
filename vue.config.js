@@ -3,53 +3,25 @@ let glob = require('glob')
 //配置pages多页面获取当前文件夹下的html和js
 function getEntry(globPath) {
   let entries = {},
-      basename, tmp, pathname, appname;
-
+      basename, tmp, pathname
   glob.sync(globPath).forEach(function(entry) {
-    basename = path.basename(entry, path.extname(entry));
-    tmp = entry.split('/').splice(-3);
-    console.log(tmp)
-    pathname = basename; // 正确输出js和html的路径
+    basename = path.basename(entry, path.extname(entry))
+    tmp = entry.split('/').splice(-3)
+    pathname = basename // 正确输出js和html的路径
     entries[pathname] = {
       entry: 'src/' + tmp[0] + '/' + tmp[1] + '/' + tmp[1] + '.js',
       template: 'src/' + tmp[0] + '/' + tmp[1] + '/' + tmp[2],
       title:  tmp[2],
       filename: tmp[2]
-    };
-  });
+    }
+  })
   return entries;
 }
-let pages = getEntry('./src/pages/**?/*.html');
-console.log({
-  ...pages,
-  index: 'src/main.js'
-})
+let pages = getEntry('./src/pages/**?/*.html')
 //配置end
 
 module.exports = {
   pages,
-  // pages: {
-  //   ...pages,
-  //   index: 'src/main.js'
-  // },
-  // pages: {
-  //   userCenter: {
-  //     // 应用入口配置，相当于单页面应用的main.js，必需项
-  //     entry: 'src/pages/userCenter/userCenter.js',
-  //     // 应用的模版，相当于单页面应用的public/index.html，可选项，省略时默认与模块名一致
-  //     template: 'public/userCenter.html',
-  //     // 编译后在dist目录的输出文件名，可选项，省略时默认与模块名一致
-  //     filename: 'userCenter.html',
-  //     // 标题，可选项，一般情况不使用，通常是在路由切换时设置title
-  //     // 需要注意的是使用title属性template 中的 title 标签需要是 <title><%= htmlWebpackPlugin.options.title %></title>
-  //     title: '个人中心',
-  //     // 包含的模块，可选项
-  //     // chunks: ['userCenter', 'chunk-vendors']
-  //     // chunks: ['userCenter']
-  //   },
-  //   // 只有entry属性时，直接用字符串表示模块入口
-  //   index: 'src/main.js'
-  // },
   // 基本路径
   publicPath: '/',
   // 输出文件目录
